@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  web:
+    image: pranavcodes1/sample-app
+    ports:
+      - "5000:5000"
