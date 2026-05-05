@@ -181,3 +181,110 @@ to check all docker network
 to create a docker network
 
 
+
+DOCKER COMPOSE-
+
+Docker compose is a tool for defining and running multi-container applications.
+
+writing all commands in a sin gle file called .yaml.
+so that we wil run containers from files instead of terminal.
+these commands are in structured way.
+
+in compose.yaml we write-
+indetation is imp so use proper spacing.
+version: docker compose version we want to use
+services: services are the containers that we want to run
+mongo:
+ports: for port binding
+environment: env variables
+
+ex-
+version: "3.8"
+services:
+	mongo:
+	image: mongo
+	ports:
+	-27017:27017
+	environment:
+		MONGO_INITDB_ROOT_USERNAME:admin
+		MONGO_INITDB_ROOT_PASSWORD:qwerty
+	volumes:
+	-host_dir:cont_dir
+	
+TO RUN THIS YAML FILES, WE USE DOCKER COMPOSE
+Commands of docker compose-
+
+1. docker compose -f fileName.yaml up -d
+to create and run the containers defined in file.
+
+2. docker compose -f fileName.yaml down
+to delete the containers permanently
+
+in yaml file we do not need to create docker network, it automatically creates a network.
+
+
+JENKINS CONVERTS OUR APPLICATION INTO DOCKER IMAGE, SO THAT EVERYONE CAN BE ABLE TO ACCESS THE PARTICULAR IMAGE.
+
+DOCKER FILE-
+blueprint for building docker image and docker container.
+DOCKER FILE has instructions how the application will be dockerized.
+
+
+IMP docker file instructions-
+FROM- we write base image, on which we will be creating our docker app, ex- FROM node.js
+WORKDIR- Defining our working directory, its the path in the image where files will be copied and commands will be executed.
+COPY- to copy files from host to image.
+RUN- helps to execute instructions, ex- run pip install, there can be multiple run commands.
+CMD- we can have only one cmd command,after setup of container, its a default command that will be used for running the container.
+EXPOSE- expose port of any image.
+ENV- environment variables are defined here.
+
+
+
+TO CREATE A CONTAINER FROM DOCKER FILE-
+COMMAND- docker build -t image-name:version .
+here -t is tag
+ex - docker build -t testapp:1.0 .
+
+to run container- docker run testapp:1.0
+
+Publsihing docker images on DOCKERHUB-
+
+1.Create a new repository.
+
+2. build docker image with rthe same name given to the repository
+ex-docker build -t docker_practice/testapp
+
+3.login in dockerhub from terminal,
+command- docker login -u <username>
+
+
+DOCKER VOLUMES-
+Volumes are persistent data stores for containers, to prevent from data loss.
+we define it by -v
+ex - docker run -it -v /users/desktop/data:/test/data ubuntu
+
+so volumes helps us to store data even after we stop or delete the container. so that it is stored in our desktop.
+
+
+to get all volumes- docker volumes ls
+
+to create custom volume- docker volume create VOL_NAME
+
+to remove created vomulme- docker volume rm VOL_NAME
+
+
+to attach these created volumes with running containers-
+
+named volumes	-	
+docker run -v vol_name:cont_dir
+
+Anonymous volumes-
+docker run -v MOUNT_PATH
+Here mount path is container directory
+
+Bind Mount-
+docker run -v HOST_DIR:CONT_DIR
+
+
+docker volume prune- to delete anonymous volumes that are not in use.
